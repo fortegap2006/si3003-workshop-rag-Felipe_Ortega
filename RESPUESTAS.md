@@ -8,6 +8,9 @@ Escribe aquí tus respuestas con tus propias palabras. Pega tablas, resultados y
 ## T1 · Cuántos nodos viven en cada capa
 
 _Evidencia:_ 
+**Codigo python**
+<img width="700" height="227" alt="image" src="https://github.com/user-attachments/assets/a1de0e4a-f460-4440-9bd4-2fca89d55d89" />
+
 T1. ¿CUÁNTOS NODOS VIVEN EN CADA CAPA?
 
 CÁLCULO A MANO
@@ -69,24 +72,71 @@ R/: ef ya que subirlo mejora el recall pero aumenta la latencia
 
 ## T3 · Inserción frente a búsqueda
 
-_Evidencia:_ …
+_Evidencia:_ 
+
+
+
+| Característica | Inserción | Búsqueda |
+|---|---|---|
+| ¿Se sortea la capa? | Sí, se asigna una altura aleatoria al nuevo nodo para mantener la estructura jerárquica del índice. | No, se recorren las capas existentes porque los nodos ya tienen una altura asignada. |
+| Valor de ef en las capas altas | Se utiliza `ef_construction` para controlar los candidatos considerados al conectar el nuevo nodo. | Se utiliza un `ef` pequeño para avanzar rápidamente por las capas superiores hacia la zona del resultado. |
+| Parámetro de la fase principal | `ef_construction`, que controla la búsqueda de candidatos durante la construcción del índice. | `ef`, que controla cuántos candidatos se consideran durante la búsqueda. |
+| ¿Modifica el índice? | Sí, añade el nodo y crea o actualiza sus conexiones. | No, solo recorre las conexiones existentes para encontrar los vecinos más cercanos. |
+
+
 
 _Mi respuesta / análisis:_
+R/: La inserción incorpora nuevos documentos al índice, asigna niveles a los nodos y crea conexiones para que puedan encontrarse posteriormente. En cambio, la búsqueda utiliza las conexiones ya construidas para localizar los documentos más relevantes sin modificar el índice.
 
 
 ## T4 · El invariante de FAISSVectorStore
 
-_Evidencia:_ …
 
-_Mi respuesta / análisis:_
+## 1. Tabla de posiciones antes y después de borrar B
+
+Antes de eliminar B, la lista de documentos y el índice FAISS están sincronizados. Si se elimina B únicamente de `self.documents`, las posiciones dejan de corresponder.
+
+| Posición | Documento antes de borrar | Documento después de borrar | Vector FAISS |
+|---|---|---|---|
+| 0 | A | A | A |
+| 1 | B | C | B |
+| 2 | C | D | C |
+| 3 | D | No existe | D |
+
+Después de borrar B, la lista contiene `[A, C, D]`, pero FAISS conserva los vectores `[A, B, C, D]`.
+
+Si una búsqueda devuelve los índices `[1, 2, 3]`, sucede lo siguiente:
+
+- Índice 1: devuelve C, aunque el vector corresponde a B.
+- Índice 2: devuelve D, aunque el vector corresponde a C.
+- Índice 3: provoca un error porque la lista solo tiene tres elementos y las posiciones válidas son 0, 1 y 2.
+
+## 2. ¿Qué resultado sería un error silencioso y cuál lanzaría una excepción?
+
+Los índices 1 y 2 producen errores silenciosos, porque devuelven documentos equivocados sin avisar. El índice 3 lanza una excepción `IndexError`, porque intenta acceder a una posición que ya no existe en la lista.
+
+## 3. Relación con las bases vectoriales como Qdrant
+
+Las bases de datos vectoriales especializadas, como Qdrant, utilizan identificadores para relacionar los vectores con sus documentos, en lugar de depender únicamente de las posiciones de una lista de Python. Esto permite gestionar inserciones y eliminaciones de forma más segura y evita que una búsqueda devuelva documentos incorrectos por una desincronización.
+
 
 
 ## T5 · El costo de la fuerza bruta
 
-_Evidencia:_ …
+Con ~768 millones de multiplicaciones por consulta y 100 consultas por segundo, ¿cuántas multiplicaciones por segundo necesitas?
+R/: Tenemos 768 millones de vectores de 768 dimensiones y 100 consultas por segundo.
 
-_Mi respuesta / análisis:_
+El cálculo es:
 
+768.000.000 × 768 × 100 = 58.982.400.000.000
+
+Escribe la cifra en notación científica y explica por qué «ser exacto» deja de ser viable.
+R/: **5,9 × 10¹³ multiplicaciones por segundo.**
+La búsqueda por fuerza bruta debe comparar cada consulta con todos los vectores almacenados. Esto requiere una gran cantidad de operaciones y recursos computacionales. Con millones de vectores y 100 consultas por segundo, el costo de procesamiento, memoria y energía es muy elevado, lo que puede aumentar la latencia y reducir el rendimiento del sistema.
+
+
+Una frase: ¿qué se sacrifica en ANN (Approximate Nearest Neighbor) y qué se gana?
+R/: En ANN (Approximate Nearest Neighbor) se sacrifica la garantía de encontrar siempre el vecino más cercano exacto, pero se gana velocidad y eficiencia computacional, permitiendo procesar más consultas en menos tiempo y con menos recursos.
 
 ---
 
