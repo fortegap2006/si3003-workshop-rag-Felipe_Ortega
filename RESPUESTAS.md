@@ -7,9 +7,51 @@ Escribe aquí tus respuestas con tus propias palabras. Pega tablas, resultados y
 
 ## T1 · Cuántos nodos viven en cada capa
 
-_Evidencia:_ …
+_Evidencia:_ 
+T1. ¿CUÁNTOS NODOS VIVEN EN CADA CAPA?
 
-_Mi respuesta / análisis:_
+CÁLCULO A MANO
+
+Datos:
+
+M = 16
+N = 1.000.000 vectores
+Probabilidad de llegar al menos a la capa k: P(L >= k) = M^(-k)
+
+La fórmula para calcular el número esperado de nodos es:
+
+E_k = N / M^k
+
+Capa >= 1:
+
+E_1 = 1.000.000 / 16 = 62.500 nodos
+
+Capa >= 2:
+
+E_2 = 1.000.000 / 16^2 E_2 = 1.000.000 / 256 = 3.906,25 nodos
+
+Capa >= 3:
+
+E_3 = 1.000.000 / 16^3 E_3 = 1.000.000 / 4.096 = 244,14 nodos
+
+SIMULACIÓN A MANO
+
+Cada vector tiene una probabilidad de 1/16 de subir a la siguiente capa.
+
+Capa >= 1: de 1.000.000 de vectores, esperamos que 1.000.000 / 16 = 62.500 lleguen a esta capa.
+Capa >= 2: de los 62.500 vectores anteriores, esperamos que 62.500 / 16 = 3.906,25 lleguen a esta capa.
+Capa >= 3: de los 3.906,25 vectores anteriores, esperamos que 3.906,25 / 16 = 244,14 lleguen a esta capa.
+
+Resultados teóricos:
+
+Capa >= 1: 62.500 nodos Capa >= 2: 3.906,25 nodos Capa >= 3: 244,14 nodos
+
+Estos valores son estimaciones matemáticas. Una simulación real en Python puede producir resultados ligeramente diferentes debido al azar.
+
+
+_Mi respuesta / análisis: ¿POR QUÉ MEJORA LA VELOCIDAD DE BÚSQUEDA?
+
+Tener pocos nodos en las capas altas permite realizar saltos largos y recorrer rápidamente grandes partes del índice. Después, las capas inferiores permiten encontrar el resultado con mayor precisión, evitando revisar todos los nodos.
 
 
 ## T2 · ef, k y el tamaño de la cola
