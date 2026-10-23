@@ -56,9 +56,15 @@ Tener pocos nodos en las capas altas permite realizar saltos largos y recorrer r
 
 ## T2 · ef, k y el tamaño de la cola
 
-_Evidencia:_ …
+PREGUNTAS:
+Si pides k = 10 vecinos y configuras ef = 5, ¿qué falla y por qué?
+R/: ef debe ser siempre ≥ k. Si pides k=10 resultados con ef=5, solo tienes 5 candidatos para elegir — imposible retornar 10.
 
-_Mi respuesta / análisis:_
+Según la presentación, ¿con qué valor conviene empezar y cuándo se sube?
+R/: con ef = 2k. Si el recall es insuficiente, súbelo (Recall < 95%)
+
+¿Cuál de los dos parámetros, ef o ef_construction, puedes cambiar en producción sin reconstruir el índice? Justifica.
+R/: ef ya que subirlo mejora el recall pero aumenta la latencia
 
 
 ## T3 · Inserción frente a búsqueda
