@@ -1,8 +1,8 @@
 # Workshop RAG · SI3003 Inteligencia Artificial
 
-- **Nombre:** …
-- **Código estudiantil:** …
-- **Usuario de GitHub:** …
+- **Nombre:** Felipe Ortega Pérez
+- **Código estudiantil:** 1000357874
+- **Usuario de GitHub:** fortegap2006
 - **Fecha:** 21 de octubre de 2026
 - **Entrega a:** jipadillab@eafit.edu.co
 
@@ -34,7 +34,7 @@ Reemplaza esta tabla con la que genera el botón «Copiar mi progreso en Markdow
 | C5 | MMR frente a similitud pura (reto) | 8 | ⬜ | |
 | C6 | Persistencia del índice en disco (reto) | 8 | ⬜ | |
 
-**Autoevaluación:** … / 100 puntos.
+**Autoevaluación:** 75 / 100 puntos.
 
 ## Cómo ejecutar mis notebooks
 
